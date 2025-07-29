@@ -2,7 +2,7 @@
 Miscellanious coding projects, all no longer than one file
 
 # Current commited projects
-*Keys:*
+*Keys:* \newline
   (t) = followed tutorial
   (o) = own code, no tutorial
   (m) = followed tutorial, but wrote most of the code myself
