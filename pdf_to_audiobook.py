@@ -14,8 +14,9 @@ def setup(book_path):
 	# we try opening the pdf
 	try:
 		book = open(book_path, "rb")
-	except IOError: # TODO: Is this the right error?
+	except OSError: # TODO: Is this the right error?
 		print("Couldnt open File")
+		sys.exit()
 
 	# we set up the pdf reader and get the page number
 	pdfReader = PyPDF2.PdfReader(book)
@@ -69,23 +70,31 @@ def run_app():
 	voices = narrator.getProperty("voices")
 	set_voice(narrator, voices, 2)
 
-	choice = int(input("What would you like to do?\n1: Change voice	2: Read book\n3: Quit"))
+	choice = input("What would you like to do?\n1: Change voice	2: Read book\n3: Quit\n")
+
+	if choice not in ["1","2","3"]:
+		print("This is not a valid choice.\n")
 
 	match choice:
-		case 1:
+		case "1":
 			get_available_voices(narrator, voices)
-			v = int(input("Which voice would you like?"))
 			while True:
+				try: 
+					v = int(input("Which voice would you like?\n"))
+				except ValueError:
+					print("This is not a valid number.\n")
+					continue
+			
 				if 0 <= v < len(voices):
 					set_voice(narrator, voices, v)
 					get_ready_to_read(narrator)
 					break
 				else:
-					print("The voice is not available.")
+					print("The voice is not available.\n")
 					continue
-		case 2:
-			get_ready_to_read()
-		case 3:
+		case "2":
+			get_ready_to_read(narrator)
+		case "3":
 			sys.exit()
 
 if __name__ == "__main__":
